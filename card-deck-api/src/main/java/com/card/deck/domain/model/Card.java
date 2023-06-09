@@ -10,6 +10,11 @@ public class Card {
 	private String suit;
 	private String rank;
 	
+	public Card(String suit, String rank) {
+		setRank(rank);
+		setSuit(suit);
+	}
+
 	public int getValue() {
 		return switch (getRank()) { 
 		case "A" -> ACE_VALUE;
