@@ -2,10 +2,10 @@ package com.card.deck.domain.model;
 
 public class Card {
 
-	private static int ACE_VALUE = 1;
-	private static int JESTER_VALUE = 11;
-	private static int QUEEN_VALUE = 12;
-	private static int KING_VALUE = 13;
+	public static int ACE_VALUE = 1;
+	public static int JESTER_VALUE = 11;
+	public static int QUEEN_VALUE = 12;
+	public static int KING_VALUE = 13;
 	
 	private String suit;
 	private String rank;
