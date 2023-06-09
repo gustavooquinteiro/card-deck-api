@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 public class Hand {
 	
 	private static int HAND_DEFAULT_SIZE = 5;
+	private Long handId;
 	private List<Card> cards;
 	private int size;
 	
@@ -20,6 +21,14 @@ public class Hand {
 		this.size = size;
 	}
 	
+	public Long getHandId() {
+		return handId;
+	}
+
+	public void setHandId(Long handId) {
+		this.handId = handId;
+	}
+
 	public List<Card> getCards() {
 		return cards;
 	}

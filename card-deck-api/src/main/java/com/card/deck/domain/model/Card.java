@@ -7,6 +7,7 @@ public class Card {
 	public static int QUEEN_VALUE = 12;
 	public static int KING_VALUE = 13;
 	
+	private Long cardId;
 	private String suit;
 	private String rank;
 	
@@ -25,6 +26,14 @@ public class Card {
 		};
 	}
 	
+	public Long getCardId() {
+		return cardId;
+	}
+
+	public void setCardId(Long cardId) {
+		this.cardId = cardId;
+	}
+
 	public String getSuit() {
 		return this.suit;
 	}
