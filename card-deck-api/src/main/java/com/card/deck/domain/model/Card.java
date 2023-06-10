@@ -1,28 +1,46 @@
 package com.card.deck.domain.model;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+
+@Entity
 public class Card {
 
 	public static int ACE_VALUE = 1;
-	public static int JESTER_VALUE = 11;
+	public static int JACK_VALUE = 11;
 	public static int QUEEN_VALUE = 12;
 	public static int KING_VALUE = 13;
 	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "card_id")
 	private Long cardId;
 	private String suit;
-	private String rank;
+	@Column(name = "card_value")
+	private String value;
+	@ManyToOne
+	@JoinColumn(name="hand_id")
+	private Hand hand;
 	
-	public Card(String suit, String rank) {
-		setRank(rank);
+	public Card() {}
+	
+	public Card(String suit, String value) {
+		setValue(value);
 		setSuit(suit);
 	}
 
-	public int getValue() {
-		return switch (getRank()) { 
-		case "A" -> ACE_VALUE;
-		case "J" -> JESTER_VALUE;
-		case "Q" -> QUEEN_VALUE;
-		case "K" -> KING_VALUE;
-		default -> Integer.parseInt(getRank());
+	public int getIntValue() {
+		return switch (getValue()) { 
+		case "ACE" -> ACE_VALUE;
+		case "JACK" -> JACK_VALUE;
+		case "QUEEN" -> QUEEN_VALUE;
+		case "KING" -> KING_VALUE;
+		default -> Integer.parseInt(getValue());
 		};
 	}
 	
@@ -42,11 +60,11 @@ public class Card {
 		this.suit = suit;
 	}
 	
-	public String getRank() {
-		return this.rank;
+	public String getValue() {
+		return this.value;
 	}
 	
-	public void setRank(String rank) {
-		this.rank = rank;
+	public void setValue(String value) {
+		this.value = value;
 	}
 }
