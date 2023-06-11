@@ -14,7 +14,7 @@ import javax.persistence.OneToMany;
 @Entity
 public class Hand {
 	
-	private static int HAND_DEFAULT_SIZE = 5;
+	public static int HAND_DEFAULT_SIZE = 5;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "hand_id")
