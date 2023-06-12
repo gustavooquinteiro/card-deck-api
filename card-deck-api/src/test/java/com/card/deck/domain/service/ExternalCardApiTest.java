@@ -30,8 +30,8 @@ public class ExternalCardApiTest {
 	@Test
 	public void shouldGetDefaultAmountOfCardsFromAGivenDeck() {
 		String deckId = deck.getDeck_id();
-		deck.setCards(externalCardApiService.getCardsFromDeck(deckId));
+		deck.setCards(externalCardApiService.getCardsFromDeck(deckId, Hand.DEFAULT_HAND_SIZE));
 		int handSize = deck.getCards().size();
-		assertEquals(Hand.HAND_DEFAULT_SIZE, handSize);
+		assertEquals(Hand.DEFAULT_HAND_SIZE, handSize);
 	}
 }
