@@ -39,7 +39,6 @@ public class GameService {
 
 	public Game dealCardsFromDeckToPlayers(int cardsQuantity, String deckId, int playersQuantity) {
 		Game game = (deckId.isBlank())? createNewGame(): findGame(deckId);
-		game.setPlayers(playersQuantity);
 		List<Player> players = IntStream.range(0, playersQuantity)
 			    .mapToObj(i -> {
 			        Player player = new Player();
