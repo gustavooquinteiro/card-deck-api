@@ -15,14 +15,21 @@ public class HandService {
 	@Autowired
 	private HandRepository handRepository;
 	
-	public Hand saveHand(Hand hand) {
+	@Autowired
+	private CardService cardService;
+	
+	public Hand saveHand() {
+		Hand hand = new Hand();
+		hand.setHandId((long) hand.hashCode());
 		return handRepository.save(hand);
 	}
 	
-	public Hand saveHand(List<Card> cards) {
-		Hand hand = new Hand();
-		hand.setCards(cards);
-		hand.setHandId((long) hand.hashCode());
-		return saveHand(hand);
+	public Hand saveHand(List<Card> cards) {		
+		Hand hand = saveHand();
+
+		cards.forEach(card -> card.setHand(hand));
+		cards = cardService.saveCards(cards);
+		
+		return hand;
 	}
 }
