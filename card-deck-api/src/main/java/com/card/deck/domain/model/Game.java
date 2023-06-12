@@ -15,6 +15,8 @@ import javax.persistence.OneToMany;
 @Entity
 public class Game {
 
+	public static int DEFAULT_QUANTITY_OF_PLAYERS = 4;
+	
 	@Id
 	@Column(name = "game_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
