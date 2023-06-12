@@ -4,6 +4,7 @@ import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.card.deck.api.dto.GameRequestDTO;
 import com.card.deck.api.dto.GameResponseDTO;
+import com.card.deck.api.dto.WinnerDTO;
 import com.card.deck.domain.model.Game;
 import com.card.deck.domain.model.Hand;
 import com.card.deck.domain.service.GameService;
@@ -37,5 +39,10 @@ public class GameController {
 	@PostMapping("/new")
 	public GameResponseDTO startNewGame(@RequestBody GameRequestDTO gameConfig) {
 		return gameService.setUpNewGame(gameConfig);
-	}	
+	}
+	
+	@GetMapping("{gameId}/winner")
+	public WinnerDTO getWinnerFromGame(@PathVariable Long gameId) {
+		return gameService.whoIsTheWinner(gameId);
+	}
 }
