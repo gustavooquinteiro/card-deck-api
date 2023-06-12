@@ -1,6 +1,7 @@
 package com.card.deck.api.controller;
 
 import javax.transaction.Transactional;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,7 +24,7 @@ public class GameController {
 
 	@Autowired
 	private GameService gameService;
-	
+		
 	private final GameRequestDTO defaultConfiguration = new GameRequestDTO(
 			Game.DEFAULT_QUANTITY_OF_PLAYERS, 
 			Hand.DEFAULT_HAND_SIZE, 
@@ -37,11 +38,11 @@ public class GameController {
 	
 	@Transactional
 	@PostMapping("/new")
-	public GameResponseDTO startNewGame(@RequestBody GameRequestDTO gameConfig) {
+	public GameResponseDTO startNewGame(@RequestBody @Valid GameRequestDTO gameConfig) {
 		return gameService.setUpNewGame(gameConfig);
 	}
 	
-	@GetMapping("{gameId}/winner")
+	@GetMapping("/{gameId}/winner")
 	public WinnerDTO getWinnerFromGame(@PathVariable Long gameId) {
 		return gameService.whoIsTheWinner(gameId);
 	}
