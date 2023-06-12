@@ -12,8 +12,6 @@ import com.card.deck.api.dto.GameResponseDTO;
 import com.card.deck.api.dto.PlayerDTO;
 import com.card.deck.api.dto.WinnerDTO;
 import com.card.deck.domain.exception.GameNotFoundException;
-import com.card.deck.domain.exception.InsufficientCardsException;
-import com.card.deck.domain.exception.InsufficientPlayersException;
 import com.card.deck.domain.model.Game;
 import com.card.deck.domain.model.Hand;
 import com.card.deck.domain.model.Player;
@@ -21,11 +19,9 @@ import com.card.deck.domain.repository.GameRepository;
 @Service
 public class GameService {
 
-	private static final String GAME_DECK_NOT_FOUND_MESSAGE = "A game with deck %s was not found";
+	private static final String GAME_DECK_NOT_FOUND_MESSAGE = "A game with deck '%s' was not found";
 	private static final String GAME_ID_NOT_FOUND_MESSAGE = "A game with ID %d was not found";
-	private static final int MINIMUM_PLAYER_QUANTITY = 2;
-	private static final int MINIMUM_CARD_QUANTITY = 1;
-	
+		
 	@Autowired
 	private GameRepository gameRepository;
 	
@@ -43,8 +39,6 @@ public class GameService {
 
 	public Game dealCardsFromDeckToPlayers(int cardsQuantity, String deckId, int playersQuantity) {
 		Game game = (deckId.isBlank())? createNewGame(): findGame(deckId);
-		if (playersQuantity < MINIMUM_PLAYER_QUANTITY) throw new InsufficientPlayersException();
-		if (cardsQuantity < MINIMUM_CARD_QUANTITY) throw new InsufficientCardsException();
 		game.setPlayers(playersQuantity);
 		List<Player> players = IntStream.range(0, playersQuantity)
 			    .mapToObj(i -> {
