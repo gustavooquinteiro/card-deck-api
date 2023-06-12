@@ -1,5 +1,10 @@
 package com.card.deck.api.dto;
 
-public record GameRequestDTO(int player_quantity, int hand_size, String deck_id) {
+import com.card.deck.core.validation.SufficientCardQuantity;
+import com.card.deck.core.validation.SufficientPlayerQuantity;
 
+public record GameRequestDTO(
+		@SufficientPlayerQuantity int player_quantity, 
+		@SufficientCardQuantity int hand_size, 
+		String deck_id) {
 }
