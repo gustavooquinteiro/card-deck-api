@@ -8,7 +8,12 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import lombok.Getter;
+import lombok.Setter;
+
 @Entity
+@Getter
+@Setter
 public class Card {
 
 	public static int ACE_VALUE = 1;
@@ -42,37 +47,5 @@ public class Card {
 		case "KING" -> KING_VALUE;
 		default -> Integer.parseInt(getValue());
 		};
-	}
-	
-	public Long getCardId() {
-		return cardId;
-	}
-
-	public void setCardId(Long cardId) {
-		this.cardId = cardId;
-	}
-
-	public String getSuit() {
-		return this.suit;
-	}
-	
-	public void setSuit(String suit) {
-		this.suit = suit;
-	}
-	
-	public String getValue() {
-		return this.value;
-	}
-	
-	public void setValue(String value) {
-		this.value = value;
-	}
-	
-	public Hand getHand() {
-		return this.hand;
-	}
-	
-	public void setHand(Hand hand) {
-		this.hand = hand;
 	}
 }

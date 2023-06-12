@@ -12,7 +12,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import lombok.Getter;
+import lombok.Setter;
+
 @Entity
+@Getter
+@Setter
 public class Game {
 
 	public static int DEFAULT_QUANTITY_OF_PLAYERS = 4;
@@ -35,36 +40,8 @@ public class Game {
 		this.players = new ArrayList<>();
 	}
 	
-	public Long getGameId() {
-		return gameId;
-	}
-
-	public void setGameId(Long gameId) {
-		this.gameId = gameId;
-	}
-
-	public String getDeckId() {
-		return deckId;
-	}
-
-	public void setDeckId(String deckId) {
-		this.deckId = deckId;
-	}
-
-	public List<Player> getPlayers() {
-		return players;
-	}
-	
-	public void setPlayers(List<Player> players) {	
-		this.players = players;
-	}
-	
 	public Optional<Player> getWinner() {
 		 return this.players.stream()
 	                .max((p1, p2) -> Integer.compare(p1.getPlayerHandValue(), p2.getPlayerHandValue()));	
-	}
-
-	public void setPlayers(int size) {
-		this.players = new ArrayList<>(size);
 	}	
 }

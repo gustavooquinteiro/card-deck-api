@@ -11,7 +11,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
+import lombok.Getter;
+import lombok.Setter;
+
 @Entity
+@Getter
+@Setter
 public class Player {
 
 	@Id
@@ -27,36 +32,12 @@ public class Player {
 	public Player() { 
 		this.playerHand = new Hand();
 	}
-		
-	public Long getPlayerId() {
-		return playerId;
-	}
-
-	public void setPlayerId(Long playerId) {
-		this.playerId = playerId;
-	}
-
-	public void setPlayerHand(Hand hand) {
-		this.playerHand = hand;
-	}
-	
-	public Hand getPlayerHand() {
-		return this.playerHand;
-	}
-	
+			
 	public int getPlayerHandValue() {
 		return this.playerHand.getHandValue();
 	}
 	
 	public List<Card> getCards(){
 		return this.playerHand.getCards();
-	}
-	
-	public Game getGame() {
-		return this.game;
-	}
-	
-	public void setGame(Game game) {
-		this.game = game;
 	}
 }

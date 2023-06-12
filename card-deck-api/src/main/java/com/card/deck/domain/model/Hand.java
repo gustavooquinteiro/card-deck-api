@@ -11,7 +11,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import lombok.Getter;
+import lombok.Setter;
+
 @Entity
+@Getter
+@Setter
 public class Hand {
 	
 	public static int DEFAULT_HAND_SIZE = 5;
@@ -22,18 +27,6 @@ public class Hand {
 	@OneToMany(mappedBy = "hand", cascade = CascadeType.ALL)
 	private List<Card> cards;
 		
-	public Long getHandId() {
-		return handId;
-	}
-
-	public void setHandId(Long handId) {
-		this.handId = handId;
-	}
-
-	public List<Card> getCards() {
-		return cards;
-	}
-
 	public void setCards(List<Card> cards) {
 		if (cards.size() <= DEFAULT_HAND_SIZE)
 			this.cards = cards;
