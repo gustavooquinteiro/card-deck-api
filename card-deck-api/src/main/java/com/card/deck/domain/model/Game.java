@@ -16,6 +16,7 @@ import javax.persistence.OneToMany;
 public class Game {
 
 	public static int DEFAULT_QUANTITY_OF_PLAYERS = 4;
+	public static String DEFAULT_NEW_DECK = "";
 	
 	@Id
 	@Column(name = "game_id")
