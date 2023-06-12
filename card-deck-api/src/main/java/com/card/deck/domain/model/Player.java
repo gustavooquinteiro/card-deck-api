@@ -1,5 +1,7 @@
 package com.card.deck.domain.model;
 
+import java.util.List;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -44,5 +46,17 @@ public class Player {
 	
 	public int getPlayerHandValue() {
 		return this.playerHand.getHandValue();
+	}
+	
+	public List<Card> getCards(){
+		return this.playerHand.getCards();
+	}
+	
+	public Game getGame() {
+		return this.game;
+	}
+	
+	public void setGame(Game game) {
+		this.game = game;
 	}
 }

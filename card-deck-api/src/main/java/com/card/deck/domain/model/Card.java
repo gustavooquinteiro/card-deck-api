@@ -67,4 +67,12 @@ public class Card {
 	public void setValue(String value) {
 		this.value = value;
 	}
+	
+	public Hand getHand() {
+		return this.hand;
+	}
+	
+	public void setHand(Hand hand) {
+		this.hand = hand;
+	}
 }
