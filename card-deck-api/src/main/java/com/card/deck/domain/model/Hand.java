@@ -14,7 +14,7 @@ import javax.persistence.OneToMany;
 @Entity
 public class Hand {
 	
-	public static int HAND_DEFAULT_SIZE = 5;
+	public static int DEFAULT_HAND_SIZE = 5;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "hand_id")
@@ -35,7 +35,7 @@ public class Hand {
 	}
 
 	public void setCards(List<Card> cards) {
-		if (cards.size() <= HAND_DEFAULT_SIZE)
+		if (cards.size() <= DEFAULT_HAND_SIZE)
 			this.cards = cards;
 	}
 
@@ -46,7 +46,7 @@ public class Hand {
 	}
 
 	public void addCard(Card card) {
-		if (this.cards.size() + 1 <= HAND_DEFAULT_SIZE)
+		if (this.cards.size() + 1 <= DEFAULT_HAND_SIZE)
 			this.cards.add(card);
 	}
 }
