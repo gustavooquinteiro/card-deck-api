@@ -33,7 +33,6 @@ public class GameService {
 	private ExternalCardApiService externalCardService;
 	
 	public Game createNewGame() {
-		System.out.println("create new game");
 		String deckId = externalCardService.retrieveDeck().getDeck_id();
 		Game game = new Game(deckId);
 		return gameRepository.save(game);
@@ -57,7 +56,6 @@ public class GameService {
 	}
 	
 	public Game findGame(String deckId) {
-		System.out.println("find game fuck");
 		return gameRepository.findByDeckId(deckId)
 				.orElseThrow(() -> new GameDeckNotFoundException(
 						String.format(GAME_DECK_NOT_FOUND_MESSAGE, deckId)));
