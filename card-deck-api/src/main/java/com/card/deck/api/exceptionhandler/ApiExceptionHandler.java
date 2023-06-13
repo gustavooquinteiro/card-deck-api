@@ -5,6 +5,7 @@ import java.time.OffsetDateTime;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -32,23 +33,23 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 	}
 
 	@ExceptionHandler(InsufficientPlayersException.class)
-	protected ResponseEntity<Object> handleInsufficientPlayersException(MethodArgumentNotValidException ex, WebRequest request) {
+	protected ResponseEntity<Object> handleInsufficientPlayersException(InsufficientPlayersException insufficientPlayersException, WebRequest request) {
 
 		HttpStatus status = HttpStatus.BAD_REQUEST;
 		ProblemType problemType = ProblemType.INSUFFICIENT_PLAYERS;
-		String detail = ex.getMessage();
+		String detail = insufficientPlayersException.getMessage();
 		Problem problem = createProblemBuilder(status, problemType, detail).build();
-		return handleExceptionInternal(ex, problem, new HttpHeaders(), status, request);
+		return handleExceptionInternal(insufficientPlayersException, problem, new HttpHeaders(), status, request);
 	}
 
 	@ExceptionHandler(InsufficientCardsException.class)
-	protected ResponseEntity<Object> handleInsufficientCardsException(MethodArgumentNotValidException ex, WebRequest request) {
+	protected ResponseEntity<Object> handleInsufficientCardsException(InsufficientCardsException insufficientCardsException, WebRequest request) {
 
 		HttpStatus status = HttpStatus.BAD_REQUEST;
 		ProblemType problemType = ProblemType.INSUFFICIENT_CARDS;
-		String detail = ex.getMessage();
+		String detail = insufficientCardsException.getMessage();
 		Problem problem = createProblemBuilder(status, problemType, detail).build();
-		return handleExceptionInternal(ex, problem, new HttpHeaders(), status, request);
+		return handleExceptionInternal(insufficientCardsException, problem, new HttpHeaders(), status, request);
 	}
 
 	
@@ -67,11 +68,17 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 	protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
 			HttpHeaders headers, HttpStatus status, WebRequest request) {
 		
-		ProblemType problemType = ProblemType.INSUFFICIENT_VALUES;
 		String detail = extractMessage(ex.getMessage());
-		Problem problem = createProblemBuilder(status, problemType, detail).build();
-		
-		return handleExceptionInternal(ex, problem, headers, status, request);
+		switch (detail) {
+		case InsufficientCardsException.DEFAULT_MESSAGE:
+			return handleInsufficientCardsException(new InsufficientCardsException(), request);
+		case InsufficientPlayersException.DEFAULT_MESSAGE:
+			return handleInsufficientPlayersException(new InsufficientPlayersException(), request);
+		default:
+			ProblemType problemType = ProblemType.INSUFFICIENT_VALUES;
+			Problem problem = createProblemBuilder(status, problemType, detail).build();	
+			return handleExceptionInternal(ex, problem, headers, status, request);
+		}
 	}
 	
 	private String extractMessage(String message) {
