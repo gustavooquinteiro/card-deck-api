@@ -6,11 +6,13 @@ import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.card.deck.api.dto.GameRequestDTO;
@@ -40,6 +42,7 @@ public class GameController {
 	@Transactional
 	@GetMapping("/new")
 	@ApiOperation("Start a new game with a default configuration: 4 players and 5 cards each of a new shuffled random deck from Deck of Cards API")
+	@ResponseStatus(HttpStatus.CREATED)
 	public GameResponseDTO startNewGame() { 
 		return startNewGame(defaultConfiguration);
 	}
@@ -47,6 +50,7 @@ public class GameController {
 	@Transactional
 	@PostMapping("/new")
 	@ApiOperation("Start a new game with a configuration passed by the user")
+	@ResponseStatus(HttpStatus.CREATED)
 	public GameResponseDTO startNewGame(@RequestBody @Valid GameRequestDTO gameConfig) {
 		return gameService.setUpNewGame(gameConfig);
 	}
