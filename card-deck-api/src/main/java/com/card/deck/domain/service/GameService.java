@@ -83,10 +83,13 @@ public class GameService {
 		Game game = findGame(gameId);
 		boolean hasWinner = game.getWinner().isPresent();
 		boolean isDraw = !hasWinner;
+		PlayerDTO winner = null;
+		List<PlayerDTO> playersDTO = null;
+		if (hasWinner)
+			winner = PlayerDTO.toDTO(game.getWinner().get());
+		else
+			 playersDTO = retrievePlayersFromGame(gameId);
 		
-		List<PlayerDTO> playersDTO = (hasWinner) ? 
-				List.of(PlayerDTO.toDTO(game.getWinner().get()))
-				: retrievePlayersFromGame(gameId);
-		return new WinnerDTO(hasWinner, isDraw, playersDTO);
+		return new WinnerDTO(hasWinner, isDraw, winner, playersDTO);
 	}
 }
