@@ -4,6 +4,7 @@ import static io.restassured.RestAssured.given;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.web.server.LocalServerPort;
@@ -11,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.test.context.TestPropertySource;
 
 import com.card.deck.api.dto.GameRequestDTO;
+import com.card.deck.util.DatabaseCleaner;
 
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
@@ -21,6 +23,9 @@ public class CreateGameTest {
 
 	@LocalServerPort
 	private int port;
+	
+	@Autowired
+	private DatabaseCleaner dbCleaner;
 	
 	private static String newGameBasePath = "/game/new";
 	private static int correctPlayerQuantity = 2;
@@ -33,6 +38,7 @@ public class CreateGameTest {
 		enableLoggingOfRequestAndResponseIfValidationFails();
 		RestAssured.basePath = newGameBasePath;
 		RestAssured.port = port;
+		dbCleaner.clearTables();
 	}
 	
 	@Test
