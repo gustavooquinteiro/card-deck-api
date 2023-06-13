@@ -18,8 +18,12 @@ import com.card.deck.domain.model.Game;
 import com.card.deck.domain.model.Hand;
 import com.card.deck.domain.service.GameService;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
 @RestController
 @RequestMapping("/game")
+@Api(tags = "Game")
 public class GameController {
 
 	@Autowired
@@ -32,17 +36,20 @@ public class GameController {
 	
 	@Transactional
 	@GetMapping("/new")
+	@ApiOperation("Start a new game with a default configuration: 4 players and 5 cards each of a new shuffled random deck from Deck of Cards API")
 	public GameResponseDTO startNewGame() { 
 		return startNewGame(defaultConfiguration);
 	}
 	
 	@Transactional
 	@PostMapping("/new")
+	@ApiOperation("Start a new game with a configuration passed by the user")
 	public GameResponseDTO startNewGame(@RequestBody @Valid GameRequestDTO gameConfig) {
 		return gameService.setUpNewGame(gameConfig);
 	}
 	
 	@GetMapping("/{gameId}/winner")
+	@ApiOperation("Get a winner, a person with most card's points, or a list of all players if it's a draw")
 	public WinnerDTO getWinnerFromGame(@PathVariable Long gameId) {
 		return gameService.whoIsTheWinner(gameId);
 	}

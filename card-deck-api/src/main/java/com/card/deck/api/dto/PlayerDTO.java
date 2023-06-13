@@ -5,7 +5,17 @@ import java.util.stream.Collectors;
 
 import com.card.deck.domain.model.Player;
 
-public record PlayerDTO(Long id, List<CardDTO> cards, int hand_value) {
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
+@ApiModel(description = "DTO for a player representation")
+public record PlayerDTO(
+		@ApiModelProperty(notes = "Player's ID")
+		Long id,
+		@ApiModelProperty(notes = "List of player's cards")
+		List<CardDTO> cards,
+		@ApiModelProperty(notes = "Player's hand value with the sum of all the cards' value")
+		int hand_value) {
 
 	public static PlayerDTO toDTO(Player player) {
 		return new PlayerDTO(player.getPlayerId(), 
