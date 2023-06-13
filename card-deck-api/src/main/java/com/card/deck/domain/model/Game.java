@@ -1,6 +1,7 @@
 package com.card.deck.domain.model;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -42,6 +43,8 @@ public class Game {
 	
 	public Optional<Player> getWinner() {
 		 return this.players.stream()
-	                .max((p1, p2) -> Integer.compare(p1.getPlayerHandValue(), p2.getPlayerHandValue()));	
-	}	
+	                .max(Comparator.comparingInt(Player::getPlayerHandValue))
+	                .filter(p -> this.players.stream()
+	                		.noneMatch(q -> q != p && q.getPlayerHandValue() == p.getPlayerHandValue()));	
+	}
 }
