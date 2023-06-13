@@ -6,6 +6,7 @@ import lombok.Getter;
 public enum ProblemType {
 
 	RESOURCE_NOT_FOUND("Resource not found", "/resource-not-found"),
+	METHOD_NOT_ALLOWED("Method not allowed", "/method-not-allowed"),
 	INSUFFICIENT_VALUES("Insufficient values", "/insufficient-values"),
 	INSUFFICIENT_PLAYERS("Insufficient number of players", "/insufficient-players"),
 	INSUFFICIENT_CARDS("Insufficient number of cards", "/insufficient-cards");
