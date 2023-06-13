@@ -20,9 +20,9 @@ public class HandTest {
 	void setUp() {
 		hand = new Hand();
 		Card nineCard = new Card(SUIT, "9");
-		Card jesterCard = new Card(SUIT, "J");
-		Card queenCard = new Card(SUIT, "Q");
-		Card kingCard = new Card(SUIT, "K");
+		Card jesterCard = new Card(SUIT, "JACK");
+		Card queenCard = new Card(SUIT, "QUEEN");
+		Card kingCard = new Card(SUIT, "KING");
 		Card tenCard = new Card(SUIT, "10");
 		List<Card> cards = new ArrayList<>();
 		cards.add(tenCard);
