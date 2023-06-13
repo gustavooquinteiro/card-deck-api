@@ -21,6 +21,8 @@ import com.card.deck.domain.exception.InsufficientPlayersException;
 public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
 	private static String RESOURCE_NOT_FOUND = "The %s resource, which you tried to access, is not valid";
+	private static String METHOD_NOT_ALLOWED = "The requested HTTP method is not supported for this URL." ;
+	private static String METHOD_NOT_ALLOWED_DETAIL = "Only [%s] are supported in this URL";
 
 	@ExceptionHandler(GameNotFoundException.class)
 	protected ResponseEntity<Object> handleGameNotFoundException(Exception ex, WebRequest request) {
@@ -95,6 +97,15 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 		String detail = String.format(RESOURCE_NOT_FOUND, ex.getRequestURL());
 		Problem problem = createProblemBuilder(status, problemType, detail).build();
 
+		return handleExceptionInternal(ex, problem, headers, status, request);
+	}
+	
+	@Override
+	protected ResponseEntity<Object> handleHttpRequestMethodNotSupported(HttpRequestMethodNotSupportedException ex,
+			HttpHeaders headers, HttpStatus status, WebRequest request) {
+		ProblemType problemType = ProblemType.METHOD_NOT_ALLOWED;
+		String detail = String.format(METHOD_NOT_ALLOWED_DETAIL,String.join(",", ex.getSupportedMethods()));
+		Problem problem = createProblemBuilder(status, problemType, detail).uiMessage(METHOD_NOT_ALLOWED).build();
 		return handleExceptionInternal(ex, problem, headers, status, request);
 	}
 }
