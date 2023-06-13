@@ -1,5 +1,7 @@
 package com.card.deck.api.controller;
 
+import java.util.List;
+
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.card.deck.api.dto.GameRequestDTO;
 import com.card.deck.api.dto.GameResponseDTO;
+import com.card.deck.api.dto.PlayerDTO;
 import com.card.deck.api.dto.WinnerDTO;
 import com.card.deck.domain.model.Game;
 import com.card.deck.domain.model.Hand;
@@ -46,6 +49,12 @@ public class GameController {
 	@ApiOperation("Start a new game with a configuration passed by the user")
 	public GameResponseDTO startNewGame(@RequestBody @Valid GameRequestDTO gameConfig) {
 		return gameService.setUpNewGame(gameConfig);
+	}
+	
+	@GetMapping("/{gameId}/players")
+	@ApiOperation("Get all the players from a given game ID")
+	public List<PlayerDTO> retrievePlayers(@PathVariable Long gameId) {
+		return gameService.retrievePlayersFromGame(gameId);
 	}
 	
 	@GetMapping("/{gameId}/winner")
