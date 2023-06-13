@@ -8,6 +8,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
+import org.springframework.test.context.TestPropertySource;
 
 import com.card.deck.api.dto.GameRequestDTO;
 
@@ -15,6 +16,7 @@ import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
+@TestPropertySource("/application-test.properties")
 public class CreateGameTest {
 
 	@LocalServerPort
@@ -39,7 +41,7 @@ public class CreateGameTest {
 		.when()
 			.get()
 		.then()
-			.statusCode(HttpStatus.OK.value());
+			.statusCode(HttpStatus.CREATED.value());
 	}
 	
 	@Test
@@ -51,7 +53,7 @@ public class CreateGameTest {
 		.when()
 			.post()
 		.then()
-			.statusCode(HttpStatus.OK.value());
+			.statusCode(HttpStatus.CREATED.value());
 	}
 	
 	@Test
