@@ -8,7 +8,7 @@ public class InsufficientCardsException extends RuntimeException {
 
 	private static final long serialVersionUID = 1L;
 	
-	private static final String DEFAULT_MESSAGE = "A card game should have a positive non-zero number of cards";
+	public static final String DEFAULT_MESSAGE = "A card game should have a positive non-zero number of cards in a hand";
 	
 	public InsufficientCardsException() {
 		super(DEFAULT_MESSAGE);

@@ -8,7 +8,7 @@ public class InsufficientPlayersException extends CardGameException {
 
 	private static final long serialVersionUID = 1L;
 	
-	private static final String DEFAULT_MESSAGE = "A card game should have more than 1 player";
+	public static final String DEFAULT_MESSAGE = "A card game should have more than one player";
 	
 	public InsufficientPlayersException() {
 		super(DEFAULT_MESSAGE);

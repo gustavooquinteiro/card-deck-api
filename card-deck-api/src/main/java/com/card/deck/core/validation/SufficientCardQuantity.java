@@ -8,12 +8,13 @@ import java.lang.annotation.Target;
 import javax.validation.Constraint;
 import javax.validation.Payload;
 
+import com.card.deck.domain.exception.InsufficientCardsException;
+
 @Target({ElementType.FIELD, ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = SufficientCardQuantityValidator.class)
 public @interface SufficientCardQuantity {
-
-	String message() default "A card game should have a positive non-zero number of cards in a hand";
+	String message() default InsufficientCardsException.DEFAULT_MESSAGE;
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
 }
