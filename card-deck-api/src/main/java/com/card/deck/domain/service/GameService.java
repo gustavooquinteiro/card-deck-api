@@ -1,5 +1,6 @@
 package com.card.deck.domain.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -7,11 +8,13 @@ import java.util.stream.IntStream;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.card.deck.api.dto.CustomGameRequestDTO;
 import com.card.deck.api.dto.GameRequestDTO;
 import com.card.deck.api.dto.GameResponseDTO;
 import com.card.deck.api.dto.PlayerDTO;
 import com.card.deck.api.dto.WinnerDTO;
 import com.card.deck.domain.exception.GameNotFoundException;
+import com.card.deck.domain.model.Card;
 import com.card.deck.domain.model.Game;
 import com.card.deck.domain.model.Hand;
 import com.card.deck.domain.model.Player;
@@ -31,14 +34,14 @@ public class GameService {
 	@Autowired
 	private ExternalCardApiService externalCardService;
 	
-	public Game createNewGame() {
-		String deckId = externalCardService.retrieveDeck().getDeck_id();
+	public Game createNewGame(boolean custom) {
+		String deckId = (custom)?"custom_game":externalCardService.retrieveDeck().getDeck_id();
 		Game game = new Game(deckId);
 		return gameRepository.save(game);
 	}
 
 	public Game dealCardsFromDeckToPlayers(int cardsQuantity, String deckId, int playersQuantity) {
-		Game game = (deckId.isBlank())? createNewGame(): findGame(deckId);
+		Game game = (deckId.isBlank())? createNewGame(false): findGame(deckId);
 		List<Player> players = IntStream.range(0, playersQuantity)
 			    .mapToObj(i -> {
 			        Player player = new Player();
@@ -91,5 +94,30 @@ public class GameService {
 			 playersDTO = retrievePlayersFromGame(gameId);
 		
 		return new WinnerDTO(hasWinner, isDraw, winner, playersDTO);
+	}
+
+	private Game setUp(CustomGameRequestDTO gameConfig) {
+		Game game = createNewGame(true);
+		List<Player> players = new ArrayList<>(gameConfig.players().stream()
+				.map(player -> {
+					Player newPlayer = new Player();
+					List<Card> newPlayersCards = new ArrayList<>(player.player_cards()
+							.stream()
+							.map(card -> new Card(card.suit(), card.value()))
+							.toList()); 
+					Hand hand = handService.saveHand(newPlayersCards);
+					newPlayer.setPlayerHand(hand);
+					newPlayer.setGame(game);
+					return newPlayer;
+				}).toList());
+		game.setPlayers(players);		
+		return gameRepository.save(game);
+	}
+	
+	public GameResponseDTO setUpNewCustomGame(CustomGameRequestDTO gameConfig) {
+		Game game = setUp(gameConfig);
+		return new GameResponseDTO(game.getGameId(),game.getDeckId(), 
+				game.getPlayers().size(), 
+				game.getPlayers().get(0).getPlayerHand().getCards().size());
 	}
 }

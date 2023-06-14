@@ -1,0 +1,49 @@
+{
+	"player_quantity": 2,
+	"players": [
+		{
+			"player_cards":[
+				{
+					"suit": "Clubs",
+					"value": "ACE"
+				},
+				{
+					"suit": "Clubs",
+					"value": "2"
+				},
+				{
+					"suit": "Clubs",
+					"value": "3"
+				},
+				{
+					"suit": "Clubs",
+					"value": "4"
+				}
+			]
+		},
+		{
+			"player_cards":[
+				{
+					"suit": "Clubs",
+					"value": "ACE"
+				},
+				{
+					"suit": "Clubs",
+					"value": "2"
+				},
+				{
+					"suit": "Clubs",
+					"value": "3"
+				},
+				{
+					"suit": "Clubs",
+					"value": "4"
+				},
+				{
+					"suit": "Clubs",
+					"value": "5"
+				}
+			]
+		}
+	]
+}

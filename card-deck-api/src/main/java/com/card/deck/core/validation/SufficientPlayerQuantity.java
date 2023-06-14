@@ -7,11 +7,13 @@ import java.lang.annotation.Target;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
+import javax.validation.constraints.NotNull;
 
 import com.card.deck.domain.exception.InsufficientPlayersException;
 
 @Target({ElementType.FIELD, ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
+@NotNull
 @Constraint(validatedBy = SufficientPlayerQuantityValidator.class)
 public @interface SufficientPlayerQuantity {
 	String message() default InsufficientPlayersException.DEFAULT_MESSAGE;

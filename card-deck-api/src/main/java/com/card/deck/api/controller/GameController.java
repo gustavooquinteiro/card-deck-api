@@ -15,10 +15,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.card.deck.api.dto.CustomGameRequestDTO;
 import com.card.deck.api.dto.GameRequestDTO;
 import com.card.deck.api.dto.GameResponseDTO;
 import com.card.deck.api.dto.PlayerDTO;
 import com.card.deck.api.dto.WinnerDTO;
+import com.card.deck.domain.exception.DifferentCardQuantityException;
+import com.card.deck.domain.exception.DifferentPlayersQuantityException;
 import com.card.deck.domain.model.Game;
 import com.card.deck.domain.model.Hand;
 import com.card.deck.domain.service.GameService;
@@ -55,6 +58,15 @@ public class GameController {
 		return gameService.setUpNewGame(gameConfig);
 	}
 	
+	@Transactional
+	@PostMapping("/custom/new")
+	@ApiOperation("Start a new custom game with a configuration of all players and their cards passed by the user")
+	@ResponseStatus(HttpStatus.CREATED)
+	public GameResponseDTO startNewCustomGame(@RequestBody CustomGameRequestDTO gameConfig) {
+		validate(gameConfig);
+		return gameService.setUpNewCustomGame(gameConfig);
+	}
+	
 	@GetMapping("/{gameId}/players")
 	@ApiOperation("Get all the players from a given game ID")
 	public List<PlayerDTO> retrievePlayers(@PathVariable Long gameId) {
@@ -65,5 +77,14 @@ public class GameController {
 	@ApiOperation("Get a winner, a person with most card's points, or a list of all players if it's a draw")
 	public WinnerDTO getWinnerFromGame(@PathVariable Long gameId) {
 		return gameService.whoIsTheWinner(gameId);
+	}
+	
+	private void validate(CustomGameRequestDTO gameConfig) {
+		List<PlayerDTO> players = gameConfig.players();
+		if (gameConfig.player_quantity() != players.size()) throw new DifferentPlayersQuantityException();
+		int cardQuantity = players.get(0).player_cards().size();
+		boolean sameSize = players.stream()
+		    .allMatch(player -> player.player_cards().size() == cardQuantity);
+		if (!sameSize) throw new DifferentCardQuantityException();		
 	}
 }
