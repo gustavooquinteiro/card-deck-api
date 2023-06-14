@@ -13,6 +13,8 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import com.card.deck.domain.exception.DifferentCardQuantityException;
+import com.card.deck.domain.exception.DifferentPlayersQuantityException;
 import com.card.deck.domain.exception.GameNotFoundException;
 import com.card.deck.domain.exception.InsufficientCardsException;
 import com.card.deck.domain.exception.InsufficientPlayersException;
@@ -107,5 +109,23 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 		String detail = String.format(METHOD_NOT_ALLOWED_DETAIL,String.join(",", ex.getSupportedMethods()));
 		Problem problem = createProblemBuilder(status, problemType, detail).uiMessage(METHOD_NOT_ALLOWED).build();
 		return handleExceptionInternal(ex, problem, headers, status, request);
+	}
+		
+	@ExceptionHandler(DifferentCardQuantityException.class)
+	public ResponseEntity<Object> handleDifferentCardQuantity(DifferentCardQuantityException ex, WebRequest request) {
+		HttpStatus status = HttpStatus.BAD_REQUEST;
+		ProblemType problemType = ProblemType.DIFFERENT_CARD_AMOUNT;
+		String detail = ex.getMessage();
+		Problem problem = createProblemBuilder(status, problemType, detail).build();
+		return handleExceptionInternal(ex, problem, new HttpHeaders(), status, request);
+	}
+	
+	@ExceptionHandler(DifferentPlayersQuantityException.class)
+	public ResponseEntity<Object> handleDifferentCardQuantity(DifferentPlayersQuantityException ex, WebRequest request) {
+		HttpStatus status = HttpStatus.BAD_REQUEST;
+		ProblemType problemType = ProblemType.DIFFERENT_PLAYER_AMOUNT;
+		String detail = ex.getMessage();
+		Problem problem = createProblemBuilder(status, problemType, detail).build();
+		return handleExceptionInternal(ex, problem, new HttpHeaders(), status, request);
 	}
 }
