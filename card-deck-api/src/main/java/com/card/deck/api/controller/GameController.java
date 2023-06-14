@@ -55,6 +55,8 @@ public class GameController {
 	@ApiOperation("Start a new game with a configuration passed by the user")
 	@ResponseStatus(HttpStatus.CREATED)
 	public GameResponseDTO startNewGame(@RequestBody @Valid GameRequestDTO gameConfig) {
+		if (gameConfig.deck_id() == null)
+			gameConfig = new GameRequestDTO(gameConfig.player_quantity(), gameConfig.hand_size(), Game.DEFAULT_NEW_DECK);
 		return gameService.setUpNewGame(gameConfig);
 	}
 	
