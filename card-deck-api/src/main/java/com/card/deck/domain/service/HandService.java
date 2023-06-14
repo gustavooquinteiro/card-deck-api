@@ -29,7 +29,7 @@ public class HandService {
 
 		cards.forEach(card -> card.setHand(hand));
 		cards = cardService.saveCards(cards);
-		
-		return hand;
+		hand.setCards(cards);
+		return handRepository.save(hand);
 	}
 }
