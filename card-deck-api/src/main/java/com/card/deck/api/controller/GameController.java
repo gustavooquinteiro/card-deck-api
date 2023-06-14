@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.card.deck.api.dto.CustomGameRequestDTO;
 import com.card.deck.api.dto.GameRequestDTO;
 import com.card.deck.api.dto.GameResponseDTO;
 import com.card.deck.api.dto.PlayerDTO;
@@ -53,6 +54,14 @@ public class GameController {
 	@ResponseStatus(HttpStatus.CREATED)
 	public GameResponseDTO startNewGame(@RequestBody @Valid GameRequestDTO gameConfig) {
 		return gameService.setUpNewGame(gameConfig);
+	}
+	
+	@Transactional
+	@PostMapping("/custom/new")
+	@ApiOperation("Start a new game with a configuration passed by the user")
+	@ResponseStatus(HttpStatus.CREATED)
+	public GameResponseDTO startNewCustomGame(@RequestBody @Valid CustomGameRequestDTO gameConfig) {
+		return gameService.setUpNewCustomGame(gameConfig);
 	}
 	
 	@GetMapping("/{gameId}/players")
